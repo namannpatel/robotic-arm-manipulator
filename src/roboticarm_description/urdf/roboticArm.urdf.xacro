@@ -1,0 +1,193 @@
+<?xml version="1.0" ?>
+<robot name="Robotic" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <material name="white">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+
+  <material name="orange">
+    <color rgba="0.95 0.45 0.10 1.0"/>
+  </material>
+
+  <link name="world"/>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="-0.035 -0.054 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/base_link.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+  </link>
+
+  <joint name="base_joint" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="waist_link">
+    <visual>
+      <origin xyz="-0.035 -0.054 0.0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/Waist.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+  </link>
+
+  <joint name="waist_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="waist_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="arm_1_link">
+    <visual>
+      <origin xyz="-0.12 0 -0.987" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/Arm01_1.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+  </link>
+
+  <joint name="arm_1_joint" type="revolute">
+    <parent link="waist_link"/>
+    <child link="arm_1_link"/>
+    <origin xyz="0.12 -0.08 0.987" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="arm_2_link">
+    <visual>
+      <origin xyz="0.06 -0.05 -2.08" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/Arm02_1.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+  </link>
+
+  <joint name="arm_2_joint" type="revolute">
+    <parent link="arm_1_link"/>
+    <child link="arm_2_link"/>
+    <origin xyz="-0.16 0.15 1.18" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="1"/>
+  </joint> 
+
+  <link name="arm_3_link">
+    <visual>
+      <origin xyz="-0.82 -0.31 -2.06" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/Arm03_1.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+  </link>
+
+  <joint name="arm_3_joint" type="revolute">
+    <parent link="arm_2_link"/>
+    <child link="arm_3_link"/>
+    <origin xyz="0.89 0.28 -0.12" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="gripper_base_link">
+    <visual>
+      <origin xyz="-1.08 -0.32 -2.08" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/Gripper_base.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+  </link>
+
+  <joint name="gripper_base_joint" type="revolute">
+    <parent link="arm_3_link"/>
+    <child link="gripper_base_link"/>
+    <origin xyz="0.3 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="gear1_link">
+    <visual>
+      <origin xyz="-1.5 -0.15 -2.06" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/gear2.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+  </link>
+
+  <joint name="gear1_joint" type="revolute">
+    <parent link="gripper_base_link"/>
+    <child link="gear1_link"/>
+    <origin xyz="0.41 -0.17 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="gear2_link">
+    <visual>
+      <origin xyz="-1.45 -0.44 -2.06" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/gear2.001.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+  </link>
+
+  <joint name="gear2_joint" type="revolute">
+    <parent link="gripper_base_link"/>
+    <child link="gear2_link"/>
+    <origin xyz="0.38 0.1 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="finger1_link">
+    <visual>
+      <origin xyz="-1.685 -0.645 -1.93" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/Gripper_1.001.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+  </link>
+
+  <joint name="finger1_joint" type="revolute">
+    <parent link="gripper_base_link"/>
+    <child link="finger1_link"/>
+    <origin xyz="0.62 0.295 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="finger2_link">
+    <visual>
+      <origin xyz="-1.77 -0.049 -1.93" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/Gripper_1.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+  </link>
+
+  <joint name="finger2_joint" type="revolute">
+    <parent link="gripper_base_link"/>
+    <child link="finger2_link"/>
+    <origin xyz="0.69 -0.27 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="1"/>
+  </joint>
+
+
+</robot>
