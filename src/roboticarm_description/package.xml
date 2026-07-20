@@ -3,16 +3,18 @@
 <package format="3">
   <name>roboticarm_description</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="naman@todo.todo">naman</maintainer>
-  <license>TODO: License declaration</license>
+  <description>The roboticarm_description package</description>
+  <maintainer email="namanpatel024@gmail.com">Naman Patel</maintainer>
+  <license>BSD</license>
 
-  <buildtool_depend>ament_cmake</buildtool_depend>
+  <author email="namanpatel024@gmail.com">Naman Patel</author>
 
-  <test_depend>ament_lint_auto</test_depend>
-  <test_depend>ament_lint_common</test_depend>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>xacro</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rviz</build_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>rviz</exec_depend>
 
-  <export>
-    <build_type>ament_cmake</build_type>
-  </export>
 </package>

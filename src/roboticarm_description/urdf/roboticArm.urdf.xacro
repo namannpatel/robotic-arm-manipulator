@@ -1,6 +1,19 @@
 <?xml version="1.0" ?>
 <robot name="Robotic" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <xacro:property name="PI" value="3.14159265359" />
+  <xacro:property name="effort" value="30" />
+  <xacro:property name="velocity" value="10" />
+
+  <xacro:macro name="default_inertial" params="mass">
+    <inertial>
+      <mass value="${mass}" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                iyy="1.0" iyz="0.0"
+                izz="1.0" />
+    </inertial>
+  </xacro:macro>
+
   <material name="white">
     <color rgba="1.0 1.0 1.0 1.0"/>
   </material>
@@ -12,6 +25,7 @@
   <link name="world"/>
 
   <link name="base_link">
+    <xacro:default_inertial mass="1"/>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
@@ -19,6 +33,12 @@
       </geometry>
       <material name="white"/>
     </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/base_link.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="base_joint" type="fixed">
@@ -28,6 +48,7 @@
   </joint>
 
   <link name="waist_link">
+    <xacro:default_inertial mass="0.1"/>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
@@ -35,6 +56,12 @@
       </geometry>
       <material name="orange"/>
     </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/Waist.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="waist_joint" type="revolute">
@@ -42,10 +69,11 @@
     <child link="waist_link"/>
     <origin xyz="0 0 0" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="${-pi/2}" upper="${pi/2}" effort="100" velocity="1"/>
+    <limit lower="${-PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
   </joint>
 
   <link name="arm_1_link">
+    <xacro:default_inertial mass="0.1"/>
     <visual>
       <origin xyz="-0.14 0 -0.97" rpy="0 0 0"/>
       <geometry>
@@ -53,6 +81,12 @@
       </geometry>
       <material name="orange"/>
     </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/Arm01_1.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="arm_1_joint" type="revolute">
@@ -60,10 +94,11 @@
     <child link="arm_1_link"/>
     <origin xyz="0.14 0 0.97" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit lower="${-pi/2}" upper="${pi/2}" effort="100" velocity="1"/>
+    <limit lower="${-PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
   </joint>
 
   <link name="arm_2_link">
+    <xacro:default_inertial mass="0.1"/>
     <visual>
       <origin xyz="-0.15 0 -2.17" rpy="0 0 0"/>
       <geometry>
@@ -71,6 +106,12 @@
       </geometry>
       <material name="orange"/>
     </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/Arm02_1.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="arm_2_joint" type="revolute">
@@ -78,10 +119,11 @@
     <child link="arm_2_link"/>
     <origin xyz="0.01 0 1.2" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit lower="${-pi/2}" upper="${pi/2}" effort="100" velocity="1"/>
+    <limit lower="${-PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
   </joint> 
 
   <link name="arm_3_link">
+    <xacro:default_inertial mass="0.1"/>
     <visual>
       <origin xyz="-0.21 -0.135 -2.66" rpy="0 0 0"/>
       <geometry>
@@ -89,6 +131,12 @@
       </geometry>
       <material name="orange"/>
     </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/Arm03_1.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="arm_3_joint" type="revolute">
@@ -96,10 +144,11 @@
     <child link="arm_3_link"/>
     <origin xyz="0.05 0.11 0.5" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="${-pi/2}" upper="${pi/2}" effort="100" velocity="1"/>
+    <limit lower="${-PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
   </joint>
 
   <link name="gripper_base_link">
+    <xacro:default_inertial mass="0.05"/>
     <visual>
       <origin xyz="-0.15 -0.14 -3.38" rpy="0 0 0"/>
       <geometry>
@@ -107,6 +156,12 @@
       </geometry>
       <material name="white"/>
     </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/Gripper_base.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="gripper_base_joint" type="revolute">
@@ -114,10 +169,11 @@
     <child link="gripper_base_link"/>
     <origin xyz="-0.05 0 0.71" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit lower="${-pi/2}" upper="${pi/2}" effort="100" velocity="1"/>
+    <limit lower="${-PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
   </joint>
 
   <link name="gear1_link">
+    <xacro:default_inertial mass="0.03"/>
     <visual>
       <origin xyz="-0.02 -0.17 -3.75" rpy="0 0 0"/>
       <geometry>
@@ -125,6 +181,12 @@
       </geometry>
       <material name="white"/>
     </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/gear2.002.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="gear1_joint" type="revolute">
@@ -132,10 +194,11 @@
     <child link="gear1_link"/>
     <origin xyz="-0.14 0.03 0.37" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit lower="${-pi/2}" upper="${pi/2}" effort="100" velocity="1"/>
+    <limit lower="${-PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
   </joint>
 
   <link name="gear2_link">
+    <xacro:default_inertial mass="0.03"/>
     <visual>
       <origin xyz="-0.02 0.1 -3.75" rpy="0 0 0"/>
       <geometry>
@@ -143,6 +206,12 @@
       </geometry>
       <material name="white"/>
     </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/gear2.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="gear2_joint" type="revolute">
@@ -151,10 +220,11 @@
     <origin xyz="-0.12 -0.245 0.366" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
     <mimic joint="gear1_joint" multiplier="-1.0" offset="0.0"/>
-    <limit lower="${-pi/2}" upper="${pi/2}" effort="100" velocity="1"/>
+    <limit lower="${-PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
   </joint>
 
   <link name="finger1_link">
+    <xacro:default_inertial mass="0.01"/>
     <visual>
       <origin xyz="0.03 0.24 -4.03" rpy="0 0 0"/>
       <geometry>
@@ -162,6 +232,12 @@
       </geometry>
       <material name="orange"/>
     </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/Gripper_1.001.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="finger1_joint" type="fixed">
@@ -169,10 +245,11 @@
     <child link="finger1_link"/>
     <origin xyz="-0.055 -0.137 0.279" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit lower="${-pi/2}" upper="${pi/2}" effort="100" velocity="1"/>
+    <limit lower="${-PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
   </joint>
 
   <link name="finger2_link">
+    <xacro:default_inertial mass="0.01"/>
     <visual>
       <origin xyz="0.03 -0.328 -4.01" rpy="0 0 0"/>
       <geometry>
@@ -180,6 +257,12 @@
       </geometry>
       <material name="orange"/>
     </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://roboticarm_description/meshes/Gripper_1.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="finger2_joint" type="fixed">
@@ -187,7 +270,7 @@
     <child link="finger2_link"/>
     <origin xyz="-0.055 0.162 0.26" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit lower="${-pi/2}" upper="${pi/2}" effort="100" velocity="1"/>
+    <limit lower="${-PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
   </joint>
 
 
