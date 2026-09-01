@@ -9,12 +9,20 @@
 
   <author email="namanpatel024@gmail.com">Naman Patel</author>
 
-  <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>xacro</build_depend>
-  <build_depend>roscpp</build_depend>
-  <build_depend>rviz</build_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
   <exec_depend>xacro</exec_depend>
-  <exec_depend>roscpp</exec_depend>
-  <exec_depend>rviz</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>ros_gz_sim</exec_depend>
 
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+    <!-- Lets gz-sim resolve model://roboticarm_description/meshes/*.stl (read by
+         both the classic-era GazeboRosPaths helper still used in ros_gz_sim's
+         gz_sim.launch.py, and Fortress's own resource-path search). -->
+    <gazebo_ros gazebo_model_path="${prefix}/.."/>
+  </export>
 </package>

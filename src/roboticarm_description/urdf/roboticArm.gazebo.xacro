@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ================= Gazebo visual materials ================= -->
+  <xacro:macro name="gazebo_material" params="link colour">
+    <gazebo reference="${link}">
+      <material>Gazebo/${colour}</material>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:gazebo_material link="base_link"         colour="White"/>
+  <xacro:gazebo_material link="waist_link"         colour="Orange"/>
+  <xacro:gazebo_material link="arm_1_link"         colour="Orange"/>
+  <xacro:gazebo_material link="arm_2_link"         colour="Orange"/>
+  <xacro:gazebo_material link="arm_3_link"         colour="Orange"/>
+  <xacro:gazebo_material link="gripper_base_link"  colour="White"/>
+  <xacro:gazebo_material link="gear1_link"         colour="White"/>
+  <xacro:gazebo_material link="gear2_link"         colour="White"/>
+  <xacro:gazebo_material link="finger1_link"       colour="Orange"/>
+  <xacro:gazebo_material link="finger2_link"       colour="Orange"/>
+
+  <!-- Higher friction on the fingers so a grasped object doesn't slide free -->
+  <xacro:macro name="grip_friction" params="link">
+    <gazebo reference="${link}">
+      <mu1>1.2</mu1>
+      <mu2>1.2</mu2>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:grip_friction link="finger1_link"/>
+  <xacro:grip_friction link="finger2_link"/>
+
+  <!-- ================= ros2_control ================= -->
+  <!-- Gazebo Fortress (gz_ros2_control), not Gazebo Classic: Classic's gzserver
+       deadlocks during Ogre1 render-thread init on this machine (reproducible
+       even under Xvfb / forced software rendering / restricted CPU affinity),
+       while Fortress's Ogre2-based gz-sim starts cleanly here.
+       gear2_joint is driven explicitly (mirrored) alongside gear1_joint rather
+       than relying on the URDF <mimic> tag being honored by the sim plugin. -->
+  <ros2_control name="RoboticArmSystem" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+    <xacro:macro name="position_joint" params="name">
+      <joint name="${name}">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+    </xacro:macro>
+
+    <xacro:position_joint name="waist_joint"/>
+    <xacro:position_joint name="arm_1_joint"/>
+    <xacro:position_joint name="arm_2_joint"/>
+    <xacro:position_joint name="arm_3_joint"/>
+    <xacro:position_joint name="gripper_base_joint"/>
+    <xacro:position_joint name="gear1_joint"/>
+    <xacro:position_joint name="gear2_joint"/>
+  </ros2_control>
+
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find roboticarm_control)/config/controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+</robot>
